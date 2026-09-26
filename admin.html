@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="referrer" content="same-origin" />
+  <title>Studio Workspace &middot; POUL COLLECTIONS</title>
+  <meta name="description" content="Cyber-protected studio workspace for POUL COLLECTIONS tailored hoods, polos, caps, and school uniforms." />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="admin-page">
+
+  <!-- 1. Password Protected Login Screen with Cyber Defense -->
+  <div class="login-page" id="loginScreen">
+    <div class="login-card">
+      <a class="wordmark" href="index.html">POUL COLLECTIONS</a>
+      
+      <div class="security-shield-bar" style="margin-top: 30px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d8f05f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <span>Cyber Protected Studio Gateway &middot; 2-Min Timeout</span>
+      </div>
+
+      <p class="eyebrow">Studio Workspace</p>
+      <h1>Studio<br /><em>access.</em></h1>
+      
+      <form id="loginForm" autocomplete="off">
+        <!-- Bot Honeypot Trap (Hidden from users) -->
+        <input type="text" id="securityHoneypot" name="studio_security_token_hp" class="security-hp" tabindex="-1" autocomplete="off" />
+
+        <label>
+          Admin Password
+          <div class="password-field">
+            <svg viewBox="0 0 24 24">
+              <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <input type="password" id="adminPasswordInput" placeholder="Enter studio password" autocomplete="current-password" required />
+          </div>
+        </label>
+        
+        <button type="submit" class="button button-dark" style="width: 100%; margin-top: 24px;">
+          Enter Workspace
+        </button>
+
+        <div class="lockout-notice" id="lockoutNotice" style="display: none;"></div>
+        <p class="login-error" id="loginError" style="display: none;"></p>
+
+        <a class="login-back" href="index.html">Return to Storefront</a>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Admin Workspace Dashboard -->
+  <div id="adminScreen" style="display: none;">
+    <!-- Admin Top Header -->
+    <header class="admin-header">
+      <a class="wordmark" href="index.html">POUL COLLECTIONS</a>
+      <div class="admin-menu">
+        <button class="admin-menu-toggle" id="adminMenuToggle" type="button" aria-expanded="false" aria-controls="adminMenu">Menu</button>
+        <nav class="admin-menu-panel" id="adminMenu" aria-label="Studio navigation" hidden>
+          <button id="openConfigBtn" type="button">Cloud DB Settings</button>
+          <a href="index.html">Storefront</a>
+          <button id="logoutBtn" type="button">Logout</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="admin-shell">
+      <div class="admin-title">
+        <p class="eyebrow">Studio Inventory Management</p>
+        <h1>Studio<br /><em>workspace.</em></h1>
+        <p>Publish bespoke tailored hoods, polos, caps, and school uniforms directly to the cloud database. Upload studio photography and manage live pieces without running a computer server.</p>
+      </div>
+
+      <div class="admin-layout">
+        <!-- Add New Product Form -->
+        <div>
+          <form class="product-form" id="productForm">
+            <label>
+              Garment / Product Name
+              <input type="text" id="productName" placeholder="e.g. The Obsidian Tailored Heavyweight Hood" required />
+            </label>
+
+            <div class="form-row">
+              <label>
+                Category
+                <select id="productCategory" required>
+                  <option value="Hoods">Hoods</option>
+                  <option value="Polos">Polos</option>
+                  <option value="Caps">Caps</option>
+                  <option value="School Uniforms">School Uniforms</option>
+                </select>
+              </label>
+              <label>
+                Price
+                <input type="text" id="productPrice" placeholder="e.g. KSh 4,800" required />
+              </label>
+            </div>
+
+            <label>
+              Delivery Timeline
+              <input type="text" id="productDelivery" placeholder="e.g. 2-4 days in Nairobi" value="2-4 days in Nairobi" required />
+            </label>
+
+            <label>
+              Fabric & Tailoring Specifications
+              <textarea id="productDescription" rows="3" placeholder="Fabric composition, stitch details, tailored cut..." required></textarea>
+            </label>
+
+            <label>
+              Garment Photography
+              <input type="file" id="productImageInput" accept="image/jpeg,image/png,image/webp" />
+              <div class="admin-drop" id="dropArea">
+                <div id="dropContent">
+                  <div class="upload-symbol">+</div>
+                  <span>Click or drag photograph here</span>
+                  <small>JPEG, PNG, WEBP UP TO 10MB &middot; STORED IN CLOUD</small>
+                </div>
+                <div class="admin-preview" id="imagePreview" style="display: none;"></div>
+              </div>
+            </label>
+
+            <button type="submit" class="button button-dark publish-button" id="submitBtn">
+              Publish to Cloud
+            </button>
+            <p class="admin-message" id="adminMessage" style="display: none;"></p>
+          </form>
+        </div>
+
+        <!-- Live Inventory Section -->
+        <div class="admin-inventory">
+          <div class="inventory-heading">
+            <div>
+              <p class="eyebrow">Cloud Catalog</p>
+              <h2>Live edit.</h2>
+            </div>
+            <div class="status-dot-container" id="cloudStatusBadge" title="Click to view Cloud settings">
+              <span class="status-indicator-dot"></span>
+              <span>Checking status</span>
+            </div>
+          </div>
+
+          <div id="inventoryContainer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Cloud Database Configuration Modal -->
+  <div class="modal-overlay" id="configModal" style="display: none;">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <span class="eyebrow" style="color: var(--acid);">Cloud Backend Configuration</span>
+        <button id="closeConfigBtn" style="background: none; border: 0; color: var(--paper); font-size: 16px; cursor: pointer; text-transform: uppercase; font-family: var(--font-mono-custom);">Close</button>
+      </div>
+      <h3>Supabase Cloud Setup</h3>
+      <p>Connect your storefront directly to Supabase so your tailored hoods, polos, caps, school uniforms, and photography are stored in the cloud 24/7 without needing your computer running as a server.</p>
+
+      <div style="margin-top: 18px;">
+        <label style="display: block; font-family: var(--font-mono-custom), monospace; font-size: 10px; color: #b9b8ae; text-transform: uppercase; margin-bottom: 6px;">
+          Supabase Project URL
+          <input type="url" id="modalSupabaseUrl" placeholder="https://your-project.supabase.co" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); color: var(--paper); width: 100%; padding: 10px; font-family: inherit; font-size: 13px; margin-top: 4px; box-sizing: border-box;" />
+        </label>
+      </div>
+
+      <div style="margin-top: 14px;">
+        <label style="display: block; font-family: var(--font-mono-custom), monospace; font-size: 10px; color: #b9b8ae; text-transform: uppercase; margin-bottom: 6px;">
+          Supabase Anon Key (Public)
+          <input type="text" id="modalSupabaseKey" placeholder="eyJhbGciOi..." style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); color: var(--paper); width: 100%; padding: 10px; font-family: inherit; font-size: 13px; margin-top: 4px; box-sizing: border-box;" />
+        </label>
+      </div>
+
+      <div style="margin-top: 14px;">
+        <label style="display: block; font-family: var(--font-mono-custom), monospace; font-size: 10px; color: #b9b8ae; text-transform: uppercase; margin-bottom: 6px;">
+          Studio Admin Password
+          <input type="text" id="modalAdminPassword" placeholder="Admin password" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); color: var(--paper); width: 100%; padding: 10px; font-family: inherit; font-size: 13px; margin-top: 4px; box-sizing: border-box;" />
+        </label>
+      </div>
+
+      <p id="configStatusMsg" style="font-family: var(--font-mono-custom), monospace; font-size: 11px; margin-top: 14px; min-height: 16px;"></p>
+
+      <div class="modal-actions">
+        <button id="testConnBtn" class="button" style="background: rgba(255,255,255,0.1); color: var(--paper); padding: 10px 16px;">
+          Test Connection
+        </button>
+        <button id="saveConfigBtn" class="button" style="background: var(--acid); color: var(--ink); font-weight: 600; padding: 10px 16px;">
+          Save Settings
+        </button>
+        <button id="seedBtn" class="button" style="background: transparent; border: 1px solid var(--line); color: #b9b8ae; padding: 10px 14px; font-size: 10px;" title="Insert initial demo hoods, polos, caps, school uniforms into cloud">
+          Seed Tailored Collection
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Client-side Cloud Database SDK (Supabase CDN - No Node.js required) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
